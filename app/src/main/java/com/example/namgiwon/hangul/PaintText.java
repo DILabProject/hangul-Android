@@ -45,10 +45,8 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         parentLayout.setOnTouchListener(this);
         text = getIntent().getStringExtra("text");
 
-        for(int i = 0 ; i < 23; i++){
 
-        text = getIntent().getStringExtra("text");
-        parentLayout.setOnTouchListener(this);
+
 
 
 //            for (int i = 0; i < 1; i++) {
@@ -86,9 +84,6 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
             ImageView iv =  new ImageView(this);
             iv1.setClickable(true);
             iv.setClickable(true);
-
-
-
 
 
             if(i > 10){
@@ -147,11 +142,6 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                    //Toast.makeText(getApplicationContext(),view.getId()+"",Toast.LENGTH_SHORT).show();
                     ClipData.Item item = new ClipData.Item(
                             (CharSequence) view.getTag());
-
-
-                    String[] mimeTypes = { };
-                    ClipData data = new ClipData("good", mimeTypes, item);
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(null);
 
 
                     String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
