@@ -26,7 +26,6 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
     RelativeLayout parentLayout;
     String text;
     Path path  = new Path();
-    private static final String IMAGEVIEW_TAG = "드래그 이미지";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +33,13 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         setContentView(R.layout.activity_painttext);
 
         parentLayout = (RelativeLayout) findViewById(R.id.painttext_parentlayout);
-        text = getIntent().getStringExtra("text");
 
+        parentLayout.setOnTouchListener(this);
+        text = getIntent().getStringExtra("text");
 
         for(int i = 0 ; i < 23; i++){
             ImageView iv =  new ImageView(this);
             iv.setClickable(true);
-            iv.setTag(IMAGEVIEW_TAG);
 
             if(i > 10){
                 iv.setId(i);
@@ -78,14 +77,14 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
             switch (motionEvent.getAction()){
                 case MotionEvent.ACTION_DOWN:
 
-                    Log.d("id down == ", String.valueOf(view.getId()));
-                    Toast.makeText(getApplicationContext(),view.getId()+"",Toast.LENGTH_SHORT).show();
+                    //Log.d("id down == ", String.valueOf(view.getId()));
+                   //Toast.makeText(getApplicationContext(),view.getId()+"",Toast.LENGTH_SHORT).show();
                     ClipData.Item item = new ClipData.Item(
                             (CharSequence) view.getTag());
 
-                    String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
-                    ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                    String[] mimeTypes = { };
+                    ClipData data = new ClipData("good", mimeTypes, item);
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(null);
 
                     view.startDrag(data, // data to be dragged
                             shadowBuilder, // drag shadow
