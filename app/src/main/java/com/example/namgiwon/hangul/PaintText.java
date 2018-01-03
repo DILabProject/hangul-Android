@@ -27,6 +27,13 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
     String text;
     Path path  = new Path();
 
+    private static final String IMAGEVIEW_TAG = "드래그 이미지";
+    int x1 = 200;
+    int y1 = 300;
+    int x2 = 800;
+    int y2 = 300;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,37 +41,96 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
 
         parentLayout = (RelativeLayout) findViewById(R.id.painttext_parentlayout);
 
+
         parentLayout.setOnTouchListener(this);
         text = getIntent().getStringExtra("text");
 
         for(int i = 0 ; i < 23; i++){
+
+        text = getIntent().getStringExtra("text");
+        parentLayout.setOnTouchListener(this);
+
+
+//            for (int i = 0; i < 1; i++) {
+//                if(x1 < x2 && y1 == y2 ) {
+//                    for(int j = 0;;j++){
+//                        ImageView iv1 =  new ImageView(this);
+//                        ImageView iv =  new ImageView(this);
+//                        iv1.setClickable(true);
+//                        iv.setClickable(true);
+//                        iv1.setId(j);
+//                iv1.setOnTouchListener(this);
+//                iv1.setOnDragListener(this);
+//                iv1.setBackgroundResource(R.drawable.b1);
+//                iv.setBackgroundResource(R.drawable.b);
+//                iv1.setLayoutParams(new RelativeLayout.LayoutParams(300, 300));
+//                iv.setLayoutParams(new RelativeLayout.LayoutParams(100, 100));
+//                ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(iv.getLayoutParams());
+//                margin.setMargins(x1+j*100, 300, 0, 0);
+//                iv.setLayoutParams(margin);
+//
+//                ViewGroup.MarginLayoutParams margin1 = new ViewGroup.MarginLayoutParams(iv1.getLayoutParams());
+//                margin1.setMargins(margin.leftMargin-100, margin.topMargin-100, 0, 0);
+//                iv1.setLayoutParams(margin1);
+//                parentLayout.addView(iv1);
+//                parentLayout.addView(iv);
+//                if(j == (x2-x1)/100) break;
+//               }
+//            }
+//        }
+
+
+        for(int i = 0 ; i <23; i++){
+            ImageView iv1 =  new ImageView(this);
+
             ImageView iv =  new ImageView(this);
+            iv1.setClickable(true);
             iv.setClickable(true);
 
+
+
+
+
             if(i > 10){
-                iv.setId(i);
-                iv.setOnTouchListener(this);
-                iv.setOnDragListener(this);
+                iv1.setId(i);
+                iv1.setOnTouchListener(this);
+                iv1.setOnDragListener(this);
+                iv1.setBackgroundResource(R.drawable.b1);
                 iv.setBackgroundResource(R.drawable.b);
-                iv.setLayoutParams(new RelativeLayout.LayoutParams(100, 50));
+                iv1.setLayoutParams(new RelativeLayout.LayoutParams(300, 300));
+                iv.setLayoutParams(new RelativeLayout.LayoutParams(100, 100));
                 ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(
                         iv.getLayoutParams());
-                margin.setMargins(10 * 50, (i-11)*50, 0, 0);
+                margin.setMargins(10 * 50+300, (i-11)*50+300, 0, 0);
                 iv.setLayoutParams(margin);
+
+                ViewGroup.MarginLayoutParams margin1 = new ViewGroup.MarginLayoutParams(
+                        iv1.getLayoutParams());
+                margin1.setMargins(margin.leftMargin-100, margin.topMargin-100, 0, 0);
+                iv1.setLayoutParams(margin1);
+
             }
 
             else {
-                iv.setId(i);
-                iv.setOnTouchListener(this);
-                iv.setOnDragListener(this);
-                iv.setBackgroundResource(R.drawable.a);
-                iv.setLayoutParams(new RelativeLayout.LayoutParams(50, 100));
+                iv1.setId(i);
+                iv1.setOnTouchListener(this);
+                iv1.setOnDragListener(this);
+                iv1.setBackgroundResource(R.drawable.b1);
+                iv.setBackgroundResource(R.drawable.b);
+                iv1.setLayoutParams(new RelativeLayout.LayoutParams(300, 300));
+                iv.setLayoutParams(new RelativeLayout.LayoutParams(100, 100));
                 // margin 설정을 담을 param을 하나 만들어서 ImageView에 적용합니다.
                 ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(
                         iv.getLayoutParams());
-                margin.setMargins(i * 50, 0, 0, 0);
+                margin.setMargins(i * 50 + 300, 300, 0, 0);
                 iv.setLayoutParams(margin);
+
+                ViewGroup.MarginLayoutParams margin1 = new ViewGroup.MarginLayoutParams(
+                        iv1.getLayoutParams());
+                margin1.setMargins(margin.leftMargin - 100, margin.topMargin-100, 0, 0);
+                iv1.setLayoutParams(margin1);
             }
+            parentLayout.addView(iv1);
             parentLayout.addView(iv);
         }
     }
@@ -82,9 +148,16 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                     ClipData.Item item = new ClipData.Item(
                             (CharSequence) view.getTag());
 
+
                     String[] mimeTypes = { };
                     ClipData data = new ClipData("good", mimeTypes, item);
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(null);
+
+
+                    String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
+                    ClipData data = new ClipData("a", mimeTypes, item);
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
+                            null);
 
                     view.startDrag(data, // data to be dragged
                             shadowBuilder, // drag shadow
