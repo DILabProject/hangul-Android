@@ -85,8 +85,8 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
 
                     String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
                     ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-                            view);
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+
                     view.startDrag(data, // data to be dragged
                             shadowBuilder, // drag shadow
                             view, // 드래그 드랍할  Vew
