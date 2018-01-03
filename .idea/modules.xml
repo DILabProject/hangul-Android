@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hangul.iml" filepath="$PROJECT_DIR$/hangul.iml" />
+      <module fileurl="file://C:\Users\gunyoungkim\Desktop\kimgunyoung\Di_lab\Di_project\hangul_android\app\app.iml" filepath="C:\Users\gunyoungkim\Desktop\kimgunyoung\Di_lab\Di_project\hangul_android\app\app.iml" />
+      <module fileurl="file://C:\Users\gunyoungkim\Desktop\kimgunyoung\Di_lab\Di_project\hangul_android\hangul.iml" filepath="C:\Users\gunyoungkim\Desktop\kimgunyoung\Di_lab\Di_project\hangul_android\hangul.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hangul_android.iml" filepath="$PROJECT_DIR$/hangul_android.iml" />
     </modules>
   </component>
 </project>
