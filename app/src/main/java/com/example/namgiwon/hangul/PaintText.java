@@ -55,7 +55,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                         iv1.setId(j);
                 iv1.setOnTouchListener(this);
                 iv1.setOnDragListener(this);
-                iv1.setBackgroundResource(R.drawable.b1);
+                iv1.setBackgroundResource(R.drawable.a1);
                 iv.setBackgroundResource(R.drawable.b);
                 iv1.setLayoutParams(new RelativeLayout.LayoutParams(300, 300));
                 iv.setLayoutParams(new RelativeLayout.LayoutParams(100, 100));
@@ -202,7 +202,5 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
             }
         }
     };
-
-
 
 }
