@@ -2,12 +2,7 @@ package com.example.namgiwon.hangul;
 //kiwon
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -19,11 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import java.util.HashMap;
 
 /**
  * Created by namgiwon on 2017. 12. 29..
@@ -174,8 +166,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                     x+=view.getLeft();      // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 왼쪽마진값을 더한다
                     y+=view.getTop();          // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 위쪽마진 값을 더한다
                 }
-//                if((int) view.getId() > 10){
-                Log.d("bbb",String.valueOf(view.getId()));
+
                 //포인트가 이동될때 마다 두 좌표(이전에눌렀던 좌표와 현재 이동한 좌료)간의 간격을 구한다.
                 float dx = Math.abs(x - drawLine.oldX);
                 float dy = Math.abs(y - drawLine.oldY);
@@ -187,22 +178,16 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                     //lineTo를 쓸수 있지만.. 좀더 부드럽게 보이기 위해서 quadTo를 사용함.
                     drawLine.path.quadTo(drawLine.oldX, drawLine.oldY, x, y);
 
-
                     //포인터의 마지막 위치값을 기억한다.
                     drawLine.oldX = x;
                     drawLine.oldY = y;
 
                     //그리기 bitmap에 path를 따라서 선을 그린다.
-
                     drawLine.canvas.drawPath(drawLine.path, drawLine.paint);
-
                 }
-
                 //화면을 갱신시킴... 이 함수가 호출 되면 onDraw 함수가 실행됨.
                 drawLine.invalidate();
                 return true;
-
-
         }
 
         return false;

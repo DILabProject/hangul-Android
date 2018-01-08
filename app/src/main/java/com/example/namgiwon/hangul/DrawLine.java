@@ -1,16 +1,11 @@
 package com.example.namgiwon.hangul;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -77,78 +72,6 @@ public class DrawLine extends View
         }
     }
 
-
-//    이벤트 처리용 함수..
-//    View.OnTouchListener tListener = new View.OnTouchListener() {
-//    @Override
-//    public boolean onTouch(View view ,MotionEvent event) {
-//        float x = event.getX();
-//        float y = event.getY();
-//
-//        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//            case MotionEvent.ACTION_DOWN: {
-//                //최초 마우스를 눌렀을때(손가락을 댓을때) 경로를 초기화 시킨다.
-//                path.reset();
-//
-//                //그다음.. 현재 경로로 경로를 이동 시킨다.
-//                path.moveTo(x, y);
-//
-//                //포인터 위치값을 기억한다.
-//                oldX = x;
-//                oldY = y;
-//
-//
-//                ClipData.Item item = new ClipData.Item(
-//                        (CharSequence) view.getTag());
-//                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
-//                ClipData data = new ClipData("a", mimeTypes, item);
-//                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-//                        null);
-//
-//
-//                view.startDrag(data, // data to be dragged
-//                        shadowBuilder, // drag shadow
-//                        view, // 드래그 드랍할  Vew
-//                        0 // 필요없은 플래그
-//                );
-//
-//                //계속 이벤트 처리를 하겠다는 의미.
-//                return true;
-//            }
-//            case MotionEvent.ACTION_MOVE: {
-//                //포인트가 이동될때 마다 두 좌표(이전에눌렀던 좌표와 현재 이동한 좌료)간의 간격을 구한다.
-//                float dx = Math.abs(x - oldX);
-//                float dy = Math.abs(y - oldY);
-//
-//                //두 좌표간의 간격이 4px이상이면 (가로든, 세로든) 그리기 bitmap에 선을 그린다.
-//                if (dx >= 4 || dy >= 4) {
-//                    //path에 좌표의 이동 상황을 넣는다. 이전 좌표에서 신규 좌표로..
-//                    //lineTo를 쓸수 있지만.. 좀더 부드럽게 보이기 위해서 quadTo를 사용함.
-//                    path.quadTo(oldX, oldY, x, y);
-//
-//
-//                    //포인터의 마지막 위치값을 기억한다.
-//                    oldX = x;
-//                    oldY = y;
-//
-//                    //그리기 bitmap에 path를 따라서 선을 그린다.
-//                    canvas.drawPath(path, paint);
-//                }
-//
-//                //화면을 갱신시킴.. 이 함수가 호출 되면 onDraw 함수가 실행됨.
-//                invalidate();
-//                Log.d("bbb", String.valueOf(oldX));
-//                //계속 이벤트 처리를 하겠다는 의미.
-//                return true;
-//            }
-//        }
-//
-//        //더이상 이벤트 처리를 하지 않겠다는 의미.
-//        return false;
-//    }
-//
-//};
-
     /**
      * 펜 색상 세팅
      * @param color 색상
@@ -159,7 +82,7 @@ public class DrawLine extends View
         paint.setColor(color);
         paint.setAlpha(255);
         paint.setDither(true);
-        paint.setStrokeWidth(100);
+        paint.setStrokeWidth(100); // 선 두께 설정
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
