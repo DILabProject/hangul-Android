@@ -2,7 +2,36 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/painttext_parentlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout">
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/painttext_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/painttext_back"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp"
+        android:layout_toEndOf="@+id/relativeLayout"
+        android:layout_toRightOf="@+id/relativeLayout"
+        android:text="reset" />
+
+    <Button
+        android:id="@+id/painttext_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/painttext_reset"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/painttext_reset"
+        android:layout_marginBottom="20dp"
+        android:text="back" />
 </RelativeLayout>
