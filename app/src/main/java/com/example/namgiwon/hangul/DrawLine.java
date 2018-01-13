@@ -82,7 +82,7 @@ public class DrawLine extends View
         paint.setColor(color);
         paint.setAlpha(255);
         paint.setDither(true);
-        paint.setStrokeWidth(100); // 선 두께 설정
+        paint.setStrokeWidth(50); // 선 두께 설정
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
