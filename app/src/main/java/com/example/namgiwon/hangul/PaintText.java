@@ -2,18 +2,25 @@ package com.example.namgiwon.hangul;
 //kiwon
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,9 +105,9 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         jsonarr1.add(jsonobj1);
         jsonobj1 = new JsonObject();
 
-        jsonobj1.addProperty("x1","100");
+        jsonobj1.addProperty("x1","0");
         jsonobj1.addProperty("y1","200");
-        jsonobj1.addProperty("x2","200");
+        jsonobj1.addProperty("x2","100");
         jsonobj1.addProperty("y2","200");
         jsonarr1.add(jsonobj1);
         jsonobj1 = new JsonObject();
@@ -123,7 +130,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         parentLayout.setGravity(CENTER);
         ll = new LinearLayout(this);
         ll.setId(0);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 500);
         ll.setWeightSum(3);
         ll.setLayoutParams(lp);
         ll.setBackgroundColor(Color.BLUE);
@@ -131,13 +138,14 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
 
         LinearLayout one = new LinearLayout(this);
         one.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,400);
+        LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,400 );
+        lp1.weight=2;
         one.setLayoutParams(lp1);
         one.setBackgroundColor(Color.BLUE);
 
         ScalableLayout sl = new ScalableLayout(this,400,500);
-        ScalableLayout sl1 = new ScalableLayout(this,400,500);
-        ScalableLayout sl2 = new ScalableLayout(this,800,300);
+        ScalableLayout sl1 = new ScalableLayout(this,300,500);
+        ScalableLayout sl2 = new ScalableLayout(this,600,250);
 
         View cho = PaintWord(jsonarr,sl);
         View jung = PaintWord(jsonarr1,sl1);
@@ -146,6 +154,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         one.addView(jung);
         ll.addView(one);
         ll.addView(jong);
+
         parentLayout.addView(ll);
 
 
@@ -182,9 +191,13 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         float y = motionEvent.getY();
         int[] location = new int[2];
         view.getLocationOnScreen(location);
+
+        Rect l = new Rect();
+        parentLayout.getGlobalVisibleRect(l);
+
         if ((int) view.getId() < 100) {         //10 이란 숫자는 그려진 최대 id값
             x = x + location[0];                // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 왼쪽마진값을 더한다
-            y = y + location[1]-240;          // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 위쪽마진 값을 더한다
+            y = y +location[1] -l.top;          // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 위쪽마진 값을 더한다
         }
             switch (motionEvent.getAction()& MotionEvent.ACTION_MASK){
                 case MotionEvent.ACTION_DOWN: {
@@ -223,9 +236,13 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         float y = dragEvent.getY();
         int[] location = new int[2];
         view.getLocationOnScreen(location);
+
+        Rect l = new Rect();
+        parentLayout.getGlobalVisibleRect(l);
+
         if ((int) view.getId() < 100) {         //10 이란 숫자는 그려진 최대 id값
             x = x + location[0];                // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 왼쪽마진값을 더한다
-            y = y + location[1]-240;          // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 위쪽마진 값을 더한다
+            y += location[1] - l.top;           // 해당 아이디의 절대 좌표를 계산 하기 위하여 좌표에 뷰의 위쪽마진 값을 더한다
         }
 
         switch (dragEvent.getAction()) {
@@ -260,7 +277,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
             case DragEvent.ACTION_DROP:
                 stack.push(drawLine.path);
                 drawLine.path = new Path();
-                return false;
+                return true;
         }
 
         return true;
@@ -315,8 +332,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                 iv1.setOnDragListener(this);
                 iv1.setBackgroundResource(R.drawable.a1); // 이미지뷰 이미지지정 : 투명블럭(글자의 정답체크를 위한 투명 이미지)
                 iv.setBackgroundResource(R.drawable.b); //이미지뷰 이미지지정 :  글자블럭
-
-
+                
                 //글자블럭 param 설정
                 if(direct.equals("horizontal") ) {
                      ivLEFT =point.getX1()+j*blackBlockSize;
@@ -336,5 +352,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         }
         return  sl;
     }
+
+
 
 }
