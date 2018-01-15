@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     >
 
+
     <Button
         android:id="@+id/painttext_reset"
         android:layout_width="wrap_content"

@@ -26,7 +26,9 @@ import com.ssomai.android.scalablelayout.ScalableLayout;
 
 import java.util.LinkedList;
 
+import static android.view.DragEvent.ACTION_DRAG_STARTED;
 import static android.view.Gravity.CENTER;
+import static android.view.Gravity.isVertical;
 
 
 /**
@@ -43,22 +45,22 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
     int x2;
     int y1;
     int y2;
-    int id = 0;
+    int id = 1;
     int blackBlockSize = 100;
     int clearBlockSize = 300;
     int a = 0;
     Gson gson = new Gson();
     JsonArray jsonarr = new JsonArray();
     JsonArray jsonarr1 = new JsonArray();
+    JsonArray jsonarr2 = new JsonArray();
     JsonObject jsonobj = new JsonObject();
     JsonObject jsonobj1 = new JsonObject();
+    JsonObject jsonobj2 = new JsonObject();
     Button reset;
     Button back;
     LinkedList<Path> stack;
-//    float x,y;
-
     LinearLayout ll;
-    //ConstraintLayout cl;
+    boolean flag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         parentLayout.setOnDragListener(this);
 
 
+
         jsonobj.addProperty("x1","0");
         jsonobj.addProperty("y1","0");
         jsonobj.addProperty("x2","200");
@@ -88,38 +91,63 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         jsonarr.add(jsonobj);
         jsonobj = new JsonObject();
 
-        jsonobj1.addProperty("x1","100");
+        jsonobj1.addProperty("x1","0");
         jsonobj1.addProperty("y1","0");
-        jsonobj1.addProperty("x2","100");
+        jsonobj1.addProperty("x2","0");
         jsonobj1.addProperty("y2","400");
         jsonarr1.add(jsonobj1);
         jsonobj1 = new JsonObject();
-        jsonobj1.addProperty("x1","200");
+
+        jsonobj1.addProperty("x1","100");
         jsonobj1.addProperty("y1","200");
-        jsonobj1.addProperty("x2","300");
+        jsonobj1.addProperty("x2","200");
         jsonobj1.addProperty("y2","200");
         jsonarr1.add(jsonobj1);
         jsonobj1 = new JsonObject();
 
 
+        jsonobj2.addProperty("x1","100");
+        jsonobj2.addProperty("y1","50");
+        jsonobj2.addProperty("x2","100");
+        jsonobj2.addProperty("y2","150");
+        jsonarr2.add(jsonobj2);
+        jsonobj2 = new JsonObject();
+
+        jsonobj2.addProperty("x1","200");
+        jsonobj2.addProperty("y1","150");
+        jsonobj2.addProperty("x2","600");
+        jsonobj2.addProperty("y2","150");
+        jsonarr2.add(jsonobj2);
+        jsonobj2 = new JsonObject();
+
         parentLayout.setGravity(CENTER);
         ll = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(1000,500);
+        ll.setId(0);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ll.setWeightSum(3);
         ll.setLayoutParams(lp);
         ll.setBackgroundColor(Color.BLUE);
-        ll.setOrientation(LinearLayout.HORIZONTAL);
+        ll.setOrientation(LinearLayout.VERTICAL);
 
+        LinearLayout one = new LinearLayout(this);
+        one.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,400);
+        one.setLayoutParams(lp1);
+        one.setBackgroundColor(Color.BLUE);
 
+        ScalableLayout sl = new ScalableLayout(this,400,500);
+        ScalableLayout sl1 = new ScalableLayout(this,400,500);
+        ScalableLayout sl2 = new ScalableLayout(this,800,300);
 
-        ScalableLayout sl = new ScalableLayout(this,300,500);
-        ScalableLayout sl1 = new ScalableLayout(this,300,500);
         View cho = PaintWord(jsonarr,sl);
         View jung = PaintWord(jsonarr1,sl1);
-
-        ll.addView(cho);
-        ll.addView(jung);
-
+        View jong = PaintWord(jsonarr2,sl2);
+        one.addView(cho);
+        one.addView(jung);
+        ll.addView(one);
+        ll.addView(jong);
         parentLayout.addView(ll);
+
 
     }
 
@@ -138,7 +166,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                         parentLayout.getMeasuredWidth(), parentLayout.getMeasuredHeight());
 
                 //그리기 뷰 초기화..
-                drawLine = new DrawLine(this, rect);
+                drawLine = new DrawLine(  this, rect);
 
                 //그리기 뷰를 그리기 뷰 레이아웃에 넣기 -- 이렇게 하면 그리기 뷰가 화면에 보여지게 됨.
                 parentLayout.addView(drawLine);
@@ -176,17 +204,17 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                             view, // 드래그 드랍할  Vew
                             0 // 필요없은 플래그
                     );
-                    //계속 이벤트 처리를 하겠다는 의미.
-                    return true;
+                    return false;
                 }
                 case MotionEvent.ACTION_MOVE: {
+
                     return true;
                 }
                 case MotionEvent.ACTION_UP :{
                     return true;
                 }
             }
-            return false;
+            return true;
     }
 
     @Override
@@ -202,19 +230,19 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
 
         switch (dragEvent.getAction()) {
             // 이미지를 드래그 시작될때
-            case DragEvent.ACTION_DRAG_STARTED:
-                                //최초 마우스를 눌렀을때(손가락을 댓을때) 경로를 초기화 시킨다.
-                return true;
-            // 드래그한 이미지를 옮길려는 지역으로 들어왔을때
-            case DragEvent.ACTION_DRAG_ENTERED:
-                Log.d("id move ===", String.valueOf(view.getId()));
-                break;
+
+                case DragEvent.ACTION_DRAG_STARTED:
+                    return true;
+                // 드래그한 이미지를 옮길려는 지역으로 들어왔을때
+
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    Log.d("id move ===", String.valueOf(view.getId()));
+                    return true;
 
             case DragEvent.ACTION_DRAG_LOCATION:
                     //포인트가 이동될때 마다 두 좌표(이전에눌렀던 좌표와 현재 이동한 좌료)간의 간격을 구한다.
                     float dx = Math.abs(x - drawLine.oldX);
                     float dy = Math.abs(y - drawLine.oldY);
-
                     //두 좌표간의 간격이 4px이상이면 (가로든, 세로든) 그리기 bitmap에 선을 그린다.
                     if (dx >= 4 || dy >= 4) {
                         //path에 좌표의 이동 상황을 넣는다. 이전 좌표에서 신규 좌표로..
@@ -228,14 +256,14 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                     }
                     //화면을 갱신시킴... 이 함수가 호출 되면 onDraw 함수가 실행됨.
                     drawLine.invalidate();
-                    return true;
-
+                return true;
             case DragEvent.ACTION_DROP:
                 stack.push(drawLine.path);
                 drawLine.path = new Path();
-                return true;
+                return false;
         }
-        return false;
+
+        return true;
     }
 
     Button.OnClickListener bListener = new Button.OnClickListener(){
@@ -270,8 +298,6 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
     }
 
         public ScalableLayout PaintWord(JsonArray jsonarr , ScalableLayout sl){
-//            ScalableLayout sl = new ScalableLayout(this,500,700);
-
         for (int i = 0; i < jsonarr.size(); i++) {
             JsonObject jsonobj = jsonarr.get(i).getAsJsonObject();
             PointVO point = gson.fromJson(jsonobj,PointVO.class);
@@ -282,27 +308,25 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                 ImageView iv = new ImageView(this);
                 int ivTOP=0;
                 int ivLEFT=0;
-                iv1.setClickable(true);
-                iv.setClickable(true);
                 iv1.setId(id);
+                iv1.setClickable(true);
                 id++;
                 iv1.setOnTouchListener(this);
                 iv1.setOnDragListener(this);
                 iv1.setBackgroundResource(R.drawable.a1); // 이미지뷰 이미지지정 : 투명블럭(글자의 정답체크를 위한 투명 이미지)
                 iv.setBackgroundResource(R.drawable.b); //이미지뷰 이미지지정 :  글자블럭
 
+
                 //글자블럭 param 설정
                 if(direct.equals("horizontal") ) {
                      ivLEFT =point.getX1()+j*blackBlockSize;
                      ivTOP = point.getY1();
-
                 }else if(direct.equals("vertical")){
                     ivLEFT =point.getX1();
                     ivTOP = point.getY1()+j*blackBlockSize;
                 }
                 sl.addView(iv,ivLEFT,ivTOP,blackBlockSize,blackBlockSize);
                 sl.addView(iv1,ivLEFT-(clearBlockSize-blackBlockSize)/2,ivTOP-(clearBlockSize-blackBlockSize)/2,clearBlockSize,clearBlockSize);
-
                 if(direct.equals("horizontal") ) {
                     if(j == (point.getX2()-point.getX1())/blackBlockSize) break;
                 }else if(direct.equals("vertical")){
