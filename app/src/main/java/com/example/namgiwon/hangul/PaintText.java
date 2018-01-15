@@ -60,9 +60,12 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
     JsonArray jsonarr = new JsonArray();
     JsonArray jsonarr1 = new JsonArray();
     JsonArray jsonarr2 = new JsonArray();
+
     JsonObject jsonobj = new JsonObject();
     JsonObject jsonobj1 = new JsonObject();
     JsonObject jsonobj2 = new JsonObject();
+
+    JsonObject jsono = new JsonObject();
     Button reset;
     Button back;
     LinkedList<Path> stack;
@@ -127,6 +130,10 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         jsonarr2.add(jsonobj2);
         jsonobj2 = new JsonObject();
 
+        jsono.add("cho", jsonarr);
+        jsono.add("jung", jsonarr1);
+        jsono.add("jong", jsonarr2);
+
         parentLayout.setGravity(CENTER);
         ll = new LinearLayout(this);
         ll.setId(0);
@@ -138,14 +145,13 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
 
         LinearLayout one = new LinearLayout(this);
         one.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,400 );
-        lp1.weight=2;
+        LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,300 );
         one.setLayoutParams(lp1);
         one.setBackgroundColor(Color.BLUE);
 
         ScalableLayout sl = new ScalableLayout(this,400,500);
         ScalableLayout sl1 = new ScalableLayout(this,300,500);
-        ScalableLayout sl2 = new ScalableLayout(this,600,250);
+        ScalableLayout sl2 = new ScalableLayout(this,800,300);
 
         View cho = PaintWord(jsonarr,sl);
         View jung = PaintWord(jsonarr1,sl1);
@@ -156,8 +162,6 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
         ll.addView(jong);
 
         parentLayout.addView(ll);
-
-
     }
 
     @Override
@@ -332,7 +336,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                 iv1.setOnDragListener(this);
                 iv1.setBackgroundResource(R.drawable.a1); // 이미지뷰 이미지지정 : 투명블럭(글자의 정답체크를 위한 투명 이미지)
                 iv.setBackgroundResource(R.drawable.b); //이미지뷰 이미지지정 :  글자블럭
-                
+
                 //글자블럭 param 설정
                 if(direct.equals("horizontal") ) {
                      ivLEFT =point.getX1()+j*blackBlockSize;
@@ -342,6 +346,7 @@ public class PaintText extends AppCompatActivity implements View.OnTouchListener
                     ivTOP = point.getY1()+j*blackBlockSize;
                 }
                 sl.addView(iv,ivLEFT,ivTOP,blackBlockSize,blackBlockSize);
+
                 sl.addView(iv1,ivLEFT-(clearBlockSize-blackBlockSize)/2,ivTOP-(clearBlockSize-blackBlockSize)/2,clearBlockSize,clearBlockSize);
                 if(direct.equals("horizontal") ) {
                     if(j == (point.getX2()-point.getX1())/blackBlockSize) break;
